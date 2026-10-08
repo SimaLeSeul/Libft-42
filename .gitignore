@@ -1,0 +1,6 @@
+/libftTester
+/.vscode
+libftTester
+.vscode
+*.o
+a.out

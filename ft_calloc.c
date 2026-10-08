@@ -1,13 +1,27 @@
-#include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mibaboul <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/07 12:48:15 by mibaboul          #+#    #+#             */
+/*   Updated: 2026/10/07 16:54:28 by mibaboul         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void *ft_calloc(size_t count, size_t size)
+#include "libft.h"
+#include <stdint.h>
+
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-    if (count != 0 && count > SIZE_MAX / size)
-        return (NULL);
-    unsigned char *tmp;
-    tmp = malloc(count * size);
-    if (!tmp)
-        return(NULL);
-    ft_bzero(tmp, count * size);
-    return (tmp);
+	void	*res;
+
+	if (nmemb != 0 && size > SIZE_MAX / nmemb)
+		return (NULL);
+	res = malloc(nmemb * size);
+	if (!res)
+		return (NULL);
+	ft_bzero(res, nmemb * size);
+	return (res);
 }

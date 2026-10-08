@@ -1,46 +1,59 @@
-#include "libft.h"
-static int	count_digits(long long n)
-{
-	int	d;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mibaboul <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/08 01:32:25 by mibaboul          #+#    #+#             */
+/*   Updated: 2026/10/08 15:58:51 by mibaboul         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-	d = 0;
-	if (n == 0)
-		return (1);
-	while (n > 0)
+#include "libft.h"
+
+static int	nlen(long nb)
+{
+	int	len;
+
+	len = 1;
+	if (nb < 0)
 	{
-		n /= 10;
-		d++;
+		len++;
+		nb = -nb;
 	}
-	return (d);
+	while (nb > 9)
+	{
+		nb = nb / 10;
+		len++;
+	}
+	return (len);
 }
+
 char	*ft_itoa(int n)
 {
-	long long	num;
-	int			sign;
-	int			digits;
-	int			len;
-	char		*res;
+	char	*res;
+	long	nb;
+	size_t	len;
 
-	sign = (n < 0);
-	num = (long long)n;
-	if (num < 0)
-		num = -num;
-	digits = count_digits(num);
-	len = digits + sign + 1;
-	res = malloc(len);
+	nb = n;
+	len = nlen(nb);
+	res = malloc((len + 1) * sizeof(char));
 	if (!res)
 		return (NULL);
-	res[len - 1] = '\0';
-	while (digits > 0)
+	res[len] = '\0';
+	if (nb < 0)
 	{
-		res[--digits + sign] = '0' + (num % 10);
-		num /= 10;
-	}
-	if (sign)
 		res[0] = '-';
+		nb = -nb;
+	}
+	len--;
+	while (nb > 9)
+	{
+		res[len] = nb % 10 + '0';
+		nb = nb / 10;
+		len--;
+	}
+	res[len] = nb % 10 + '0';
 	return (res);
-}
-int main()
-{
-    printf("%s", ft_itoa(-2147483648));
 }

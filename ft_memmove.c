@@ -1,26 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mibaboul <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/06 00:23:08 by mibaboul          #+#    #+#             */
+/*   Updated: 2026/10/06 00:23:09 by mibaboul         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-void *ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-    unsigned char *tmpdst;
-    unsigned char *tmpsrc;
-    size_t i = 0;
+	size_t				i;
+	unsigned char		*tmpdst;
+	const unsigned char	*tmpsrc;
 
-    if (src == NULL && dst == NULL)
-        return (dst);
-    tmpdst = (unsigned char *)dst;
-    tmpsrc = (unsigned char *)src;
-    if (tmpdst < tmpsrc)
-        while(i < len)
-        {
-            tmpdst[i] = tmpsrc[i];
-            i++;
-        }
-    if (tmpdst > tmpsrc)
-        while (len > 0)
-        {
-            len--;
-            tmpdst[len] = tmpsrc[len];
-        }
-    return (dst);
+	if (!dst && !src)
+		return (dst);
+	i = 0;
+	tmpsrc = (const unsigned char *)src;
+	tmpdst = (unsigned char *)dst;
+	if (tmpdst > tmpsrc)
+	{
+		while (len--)
+		{
+			tmpdst[len] = tmpsrc[len];
+		}
+	}
+	else if (tmpdst <= tmpsrc)
+	{
+		while (i < len)
+		{
+			tmpdst[i] = tmpsrc[i];
+			i++;
+		}
+	}
+	return (dst);
 }

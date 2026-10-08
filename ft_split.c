@@ -1,96 +1,86 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mibaboul <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/07 23:02:33 by mibaboul          #+#    #+#             */
+/*   Updated: 2026/10/08 02:06:26 by mibaboul         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static int	word_count(const char *s, char c)
+static int	count_word(const char *s, char sep)
 {
+	size_t	w;
 	size_t	i;
-	int		count;
 
+	w = 0;
 	i = 0;
-	count = 0;
 	while (s[i])
 	{
-		while (s[i] && s[i] == c)
+		while (s[i] && s[i] == sep)
 			i++;
-		if (!s[i])
-			break ;
-		count++;
-		while (s[i] && s[i] != c)
-			i++;
+		if (s[i])
+		{
+			w++;
+			while (s[i] && s[i] != sep)
+				i++;
+		}
 	}
-	return (count);
+	return (w);
 }
 
-static char	*fill_word(const char *s, size_t start, size_t end)
+static void	*free_all(char **res, size_t j)
 {
-	char	*word;
-
-	word = malloc((end - start) + 1);
-	if (!word)
-		return (NULL);
-	memcpy(word, s + start, end - start);
-	word[end - start] = '\0';
-	return (word);
+	while (j > 0)
+	{
+		j--;
+		free(res[j]);
+	}
+	free(res);
+	return (NULL);
 }
 
-static char	**fill_tab(const char *s, char c, char **tab, int total_words, int word_index)
+static char	**fill_tab(char **res, const char *s, char sep)
 {
 	size_t	i;
-	size_t	start;
-	size_t	end;
+	size_t	j;
+	size_t	len;
 
 	i = 0;
-	while (word_index < total_words)
+	j = 0;
+	while (s[i])
 	{
-		while (s[i] && s[i] == c)
+		while (s[i] && s[i] == sep)
 			i++;
-		start = i;
-		while (s[i] && s[i] != c)
-			i++;
-		end = i;
-		tab[word_index] = fill_word(s, start, end);
-		if (!tab[word_index])
+		if (s[i])
 		{
-			while (word_index > 0)
-				free(tab[--word_index]);
-			free(tab);
-			return (NULL);
+			len = 0;
+			while (s[i + len] && s[i + len] != sep)
+				len++;
+			res[j] = ft_substr(s, i, len);
+			if (!res[j])
+				return (free_all(res, j));
+			j++;
+			i += len;
 		}
-		word_index++;
 	}
-	tab[word_index] = NULL;
-	return (tab);
+	res[j] = NULL;
+	return (res);
 }
+
 char	**ft_split(const char *s, char c)
 {
-	char	**tab;
-	int		words;
+	char	**res;
 
 	if (!s)
 		return (NULL);
-	words = word_count(s, c);
-	tab = malloc((words + 1) * sizeof(char *));
-	if (!tab)
+	res = malloc((count_word(s, c) + 1) * sizeof(char *));
+	if (!res)
 		return (NULL);
-	if (!fill_tab(s, c, tab, words, 0))
-		return (NULL);
-	return (tab);
-}
-
-int	main(void)
-{
-	char	**result;
-	int		i;
-
-	result = ft_split(" Hello World", ' ');
-	if (!result)
-		return (1);
-	i = 0;
-	while (result[i])
-	{
-		printf("%s\n", result[i]);
-		free(result[i]);
-		i++;
-	}
-	free(result);
-	return (0);
+	res = fill_tab(res, s, c);
+	return (res);
 }
