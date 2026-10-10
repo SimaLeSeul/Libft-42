@@ -6,7 +6,7 @@
 /*   By: mibaboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/06 00:23:41 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/10/08 17:42:07 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/10/10 18:20:23 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <limits.h>
 
 typedef struct s_list
@@ -29,6 +28,7 @@ t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 int		ft_lstsize(t_list *lst);
+int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
